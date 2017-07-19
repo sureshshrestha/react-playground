@@ -1,0 +1,273 @@
+slack.jscomplete.com
+https://jscomplete.com/learn-javascript
+https://edgecoders.com/
+
+Full List of Topics
+Environment and Setup
+Modern JavaScript Review
+React.js Fundamentals
+React Elements and Components
+JSX and Component props
+Working with State and Events
+Introduction to Flux and Redux
+React-Redux Bindings
+React without JSX
+Managing State in React
+Immutability and Pure Functions
+Higher order functions and Composition
+React.js Addons and Helpers
+React.js Performance
+Testing React.js Components
+Working with API Data
+Working with the DOM API
+Isomorphic Rendering
+Styling options with React.js
+User input and custom events
+Form Validation
+Components Lifecyle
+React.js Best Practices
+Production Deployment and Optimization
+
+
+
+
+
+
+
+*****************************************
+class Button extends React.Component {
+	state = { counter: 0 }
+
+  handleClick = () => {
+  	this.setState((prevState) => ({
+    	counter: prevState.counter + 1
+    }));
+  };
+
+	render() {
+  	return (
+    	<button onClick={this.handleClick}>
+        {this.state.counter}
+      </button>
+    );
+  }
+}
+
+ReactDOM.render(<Button />, mountNode);
+*****************************************
+
+*****************************************
+class Button extends React.Component {
+	
+  // handleClick = () => {
+  // 	this.setState((prevState) => ({
+  //   	counter: prevState.counter + 1
+  //   }));
+  // };
+
+	render() {
+  	return (
+    	<button onClick={() => this.props.onClickFunction(this.props.incrementValue)}>
+        +{this.props.incrementValue}
+      </button>
+    );
+  }
+}
+
+const Result = (props) => {
+	return (
+  	<div>{props.counter}</div>
+  );
+};
+
+class App extends React.Component {
+	state = { counter: 0 }
+  
+  incrementCounter = (incrementValue) => {
+  	this.setState((prevState) => ({
+    	counter: prevState.counter + incrementValue
+    }));
+  };
+
+	render() {
+  	return (
+    	<div>
+        <Button incrementValue={1} onClickFunction={this.incrementCounter}/>
+        <Button incrementValue={5} onClickFunction={this.incrementCounter}/>
+        <Button incrementValue={10} onClickFunction={this.incrementCounter}/>
+        <Button incrementValue={100} onClickFunction={this.incrementCounter}/>
+        <Button incrementValue={1000} onClickFunction={this.incrementCounter}/>
+        <Result counter={this.state.counter}/>
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<App />, mountNode);
+*****************************************
+
+*****************************************
+class Button extends React.Component {
+	
+  handleClick = () => {
+  	this.props.onClickFunction(this.props.incrementValue);
+  };
+
+	render() {
+  	return (
+    	<button onClick={this.handleClick}>
+        +{this.props.incrementValue}
+      </button>
+    );
+  }
+}
+
+const Result = (props) => {
+	return (
+  	<div>{props.counter}</div>
+  );
+};
+
+class App extends React.Component {
+	state = { counter: 0 }
+  
+  incrementCounter = (incrementValue) => {
+  	this.setState((prevState) => ({
+    	counter: prevState.counter + incrementValue
+    }));
+  };
+
+	render() {
+  	return (
+    	<div>
+        <Button incrementValue={1} onClickFunction={this.incrementCounter}/>
+        <Button incrementValue={5} onClickFunction={this.incrementCounter}/>
+        <Button incrementValue={10} onClickFunction={this.incrementCounter}/>
+        <Button incrementValue={100} onClickFunction={this.incrementCounter}/>
+        <Button incrementValue={1000} onClickFunction={this.incrementCounter}/>
+        <Result counter={this.state.counter}/>
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<App />, mountNode);
+*****************************************
+FINAL Add +1, +5, +10
+*****************************************
+class Button extends React.Component {
+	
+  handleClick = () => {
+  	this.props.onClickFunction(this.props.incrementValue);
+  };
+
+	render() {
+  	return (
+    	<button onClick={this.handleClick}>
+        +{this.props.incrementValue}
+      </button>
+    );
+  }
+}
+
+const Result = (props) => {
+	return (
+  	<div>{props.counter}</div>
+  );
+};
+
+class App extends React.Component {
+	state = { counter: 0 }
+  
+  incrementCounter = (incrementValue) => {
+  	this.setState((prevState) => ({
+    	counter: prevState.counter + incrementValue
+    }));
+  };
+
+	render() {
+  	return (
+    	<div>
+        <Button incrementValue={1} onClickFunction={this.incrementCounter}/>
+        <Button incrementValue={5} onClickFunction={this.incrementCounter}/>
+        <Button incrementValue={10} onClickFunction={this.incrementCounter}/>
+        <Button incrementValue={100} onClickFunction={this.incrementCounter}/>
+        <Button incrementValue={1000} onClickFunction={this.incrementCounter}/>
+        <Result counter={this.state.counter}/>
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<App />, mountNode);
+*****************************************
+
+FINAL: Github avatar and name extractor
+*****************************************
+const Card = (props) => {
+	return (
+  	<div style={{margin: '1em'}}>
+      <img width="75" src={props.avatar_url} />
+      <div style={{display: 'inline-block', marginLeft: 10}}>
+    	  <div style={{fontSize: '1.25em', fontWeight: 'bold'}}>{props.name}</div>
+        <div>{props.company}</div>
+      </div>
+    </div>
+  );
+};
+
+const CardList = (props) => {
+	return (
+  	<div>
+      {props.cards.map(card => <Card key={card.id} {...card}/>)}
+    </div>
+  );
+}
+
+class Form extends React.Component {
+	state = { userName: '' };
+	handleSubmit = (event) => {
+  	event.preventDefault();
+    axios.get(`https://api.github.com/users/${this.state.userName}`)
+    .then(resp => {
+    	this.props.onSubmit(resp.data);
+      this.setState({ userName: '' });
+    });
+  };
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <input type="text" 
+          value={this.state.userName}
+          onChange={(event) => this.setState({ userName: event.target.value })}
+          placeholder="Github username" required/>
+        <button type="submit">Add card</button>
+      </form>
+    );
+  }
+}
+
+class App extends React.Component {
+	state = {
+  	cards: []
+  };
+  
+  addNewCard = (cardInfo) => {
+  	this.setState(prevState => ({
+    	cards: prevState.cards.concat(cardInfo)
+    }));
+  };
+
+	render() {
+  	return (
+    	<div>
+        <Form onSubmit={this.addNewCard}/>
+        <CardList cards={this.state.cards} />
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<App />, mountNode);
+*****************************************
+
